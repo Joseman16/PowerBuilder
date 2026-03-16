@@ -1,0 +1,17 @@
+// 1. Asignar la transacción global (SQLCA) al control DataWindow
+// Esto conecta el control con la base de datos activa
+dw_1.SetTransObject(SQLCA)
+
+// 2. Ejecutar el Procedimiento Almacenado
+// Como tu SP no tiene parámetros, Retrieve() va vacío.
+// Si tuviera parámetros, irían aquí ej: dw_1.Retrieve(arg1, arg2)
+IF dw_1.Retrieve() > 0 THEN
+    // Éxito: Los datos se cargaron
+    // Opcional: Poner el foco en la primera fila
+    dw_1.SetFocus()
+ELSE
+    // Si no hay datos o hay error
+    IF SQLCA.SQLCode <> 0 THEN
+        MessageBox("Error", "Error al obtener datos: " + SQLCA.SQLErrText)
+    END IF
+END IF
